@@ -1,6 +1,7 @@
 #include "string_functions.h"
 #include <string.h>
 #include <assert.h>
+#include <stdio.h>
 
 void strswap_govno(char* temp, char* str_first, char* str_second)
 {
@@ -52,13 +53,19 @@ void strswap_pachka(char* str_first, char* str_second)
     int tmp_int = 0;
 //на линуксе просто /n, а в винде /r и /n !!!ИМЕННО В ТАКОМ ПОРЯДКЕ!!!
 //файлик создан на винде
-    long int end_pos_first = strchr(str_first, '\n') + 1 - str_first; //находим индекс \n strlen
-    long int end_pos_second = strchr(str_second, '\n') + 1 - str_second; //FIXME проверить, нашёлся ли вообще \n
-    if (end_pos_first == NULL || end_pos_second == NULL)
+
+
+    char* newline_char_first = strchr(str_first, '\n');
+    char* newline_char_second = strchr(str_second, '\n');
+    if (newline_char_first == NULL || newline_char_second == NULL)
     {
         printf("There is no \\n symbol in the string\n");
         //return -1;
     }
+
+    long int end_pos_first = newline_char_first + 1 - str_first; //находим индекс \n strlen
+    long int end_pos_second = newline_char_second + 1 - str_second; //FIXME проверить, нашёлся ли вообще \n
+
     long int max_pos = (end_pos_first > end_pos_second)? end_pos_first : end_pos_second;
 
     long unsigned int int_iterations = max_pos / sizeof(int);
