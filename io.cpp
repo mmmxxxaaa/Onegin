@@ -2,20 +2,21 @@
 
 #include <stdio.h>
 #include <assert.h>
+//fileno
 
 
-void read_chars_from_file(int amount_of_symbols, char* all_in_string, FILE* fp)
-{
-    for (long int i = 0; i < amount_of_symbols; i++)
-    {
-        int symbol = getc(fp);
-
-        if (symbol == EOF)
-            break;
-        all_in_string[i] = (char) symbol;
-
-    }
-}
+// void read_chars_from_file(int amount_of_symbols, char* all_in_string, FILE* fp)
+// {
+//     for (long int i = 0; i < amount_of_symbols; i++)
+//     {
+//         int symbol = getc(fp);
+//
+//         if (symbol == EOF)
+//             break;
+//         all_in_string[i] = (char) symbol;
+//
+//     }
+// }
 
 
 void output_from_pointers(int amount_of_lines, char** pointers_to_lines)
