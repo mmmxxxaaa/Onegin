@@ -7,12 +7,22 @@
 
 #include "string.h"
 
-int main()
+const int kFilenameSize = 100;
+
+int main(int argc, char* argv[])
 {
-    FILE* input_file = fopen("Onegin.txt", "r");
+    char filename[kFilenameSize];
+    int success_reading_filename = GetNameOfFile(filename, kFilenameSize, argc, argv);
+    if (!success_reading_filename)
+    {
+        fprintf(stderr, "Error reading filename");
+        return -1;
+    }
+
+    FILE* input_file = fopen(filename, "r");
     if (input_file == NULL)
     {
-        printf("Cannot open the file \"Onegin.txt\"\n");
+        printf("Cannot open the file \"%s\"\n", filename);
         return -1;
     }
 

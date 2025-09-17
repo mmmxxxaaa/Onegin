@@ -19,6 +19,7 @@ typedef struct {
 
 void OutputFromPointers(int amount_of_lines, string_info* pointers_to_lines);
 void GetStringPointers(char* all_in_string, string_info* pointers_to_lines, long int amount_of_symbols, int max_lines);
+int GetNameOfFile(char* ptr_filename, int name_size, int argc, char* argv[]);
 long int GetAmountOfSymbols(FILE* input_file);
 ssize_t ReadSymbolsFromFile(char* all_in_string, long int amount_of_symbols, FILE* input_file);
 

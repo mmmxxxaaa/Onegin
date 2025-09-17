@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <sys/stat.h>
+#include <string.h>
 
 #include "string_functions.h"
 
@@ -44,6 +45,25 @@ void GetStringPointers(char* all_in_string, string_info* pointers_to_lines, long
             length_of_line += 1;
     }
     // my_fputs(pointers_to_lines[0].ptr_to_beginning, stdout);
+}
+
+int GetNameOfFile(char* ptr_filename, int name_size, int argc, char* argv[])
+{
+    if (argc == 1)
+    {
+        printf("Enter the file name: \n");
+        if (scanf("%99s", ptr_filename) != 1)
+        {
+            fprintf(stderr, "Error reading filename");
+            return 0;
+        }
+    }
+    else
+    {
+        strncpy(ptr_filename, argv[1], name_size - 1);
+        ptr_filename[name_size - 1] = '\0';
+    }
+    return 1;
 }
 
 long int GetAmountOfSymbols(FILE *input_file)
