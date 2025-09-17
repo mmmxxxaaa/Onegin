@@ -103,3 +103,40 @@ void strswap_pachka(char* str_first, char* str_second)
         str_second++;
     }
 }
+
+
+int count_lines(char* all_in_string)
+{
+    assert(all_in_string != NULL);
+
+    int counter = 0;
+    char* current_pointer = all_in_string;
+
+    for(;;)
+    {
+        current_pointer = strchr(all_in_string, '\n');
+        if (current_pointer == NULL)
+            break;
+        counter++;
+        all_in_string = current_pointer + 1;
+    }
+
+    return counter;
+}
+
+int my_fputs(const char* string, FILE* stream)
+{
+    assert(string != NULL);
+    assert(stream != NULL);
+
+    size_t counter = strlen(string);
+
+    while (*string != '\n')
+    {
+        if (fputc(*string, stream) == EOF)
+            return EOF;
+        string++;
+    }
+
+    return counter;
+}

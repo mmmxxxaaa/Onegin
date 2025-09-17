@@ -1,6 +1,6 @@
 #!/bin/bash
 
-g++ main.cpp string_functions.cpp io.cpp work_with_pointers.cpp -o Onegin \
+g++ main.cpp string_functions.cpp io.cpp work_with_pointers.cpp sorting.cpp -o Onegin \
     -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Waggressive-loop-optimizations \
     -Wc++14-compat -Wmissing-declarations -Wcast-align -Wcast-qual -Wchar-subscripts \
     -Wconditionally-supported -Wconversion -Wctor-dtor-privacy -Wempty-body -Wfloat-equal \
