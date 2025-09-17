@@ -11,8 +11,9 @@ typedef struct {
 } string_info;
 
 
-// void read_chars_from_file(int amount_of_symbols, char* all_in_string, FILE* fp); //передача через char* и char ...[] эквивалентна? Не создается же копия массива при передаче через скобки?
 void output_from_pointers(int amount_of_lines, string_info* pointers_to_lines);
+void get_string_pointers(char* all_in_string, string_info* pointers_to_lines, long int amount_of_symbols, int max_lines);
+
 
 
 

@@ -4,7 +4,6 @@
 
 #include "string_functions.h"
 #include "io.h"
-#include "work_with_pointers.h"
 #include "sorting.h"
 
 #include "string.h"
@@ -49,7 +48,7 @@ int main()
 
     char** copied_pointers_to_lines = (char**) calloc(amount_of_lines + 1, sizeof(char* )); //на 1 элемент больше, чтобы в конце массива всегда был нулевой указатель
     memcpy(copied_pointers_to_lines, pointers_to_lines, (amount_of_lines + 1) * sizeof(char*));
-//блядский массив указателей уже в другом порядке ебаный сыр
+
     bubble_sort(pointers_to_lines, amount_of_lines, my_strcmp);   //FIXME
 
     output_from_pointers(amount_of_lines, pointers_to_lines);
