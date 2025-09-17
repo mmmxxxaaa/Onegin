@@ -23,14 +23,13 @@ int main()
     long int amount_of_symbols = about_file.st_size;
 
     // char strings[15][42] = {0};  //42 = 40 + '\n' + '\0'
-    char* all_in_string = (char*) calloc(amount_of_symbols + 1, sizeof(char));     //неужели нужно в int всё хранить, чтобы EOF можно было прочитать?
+    char* all_in_string = (char*) calloc(amount_of_symbols + 1, sizeof(char));
     if (all_in_string == NULL)
     {
         printf("Cannot allocate memory\n");
         return -1;
     }
     all_in_string[amount_of_symbols] = '\0';
-
     size_t read_symbols = fread(all_in_string, sizeof(char), amount_of_symbols, input_file);
 
     int amount_of_lines = count_lines(all_in_string);
@@ -38,21 +37,21 @@ int main()
     // char** pointers_to_lines = (char**) calloc(amount_of_lines + 1, sizeof(char* )); //на 1 элемент больше, чтобы в конце массива всегда был нулевой указатель
     //FIXME
     string_info* pointers_to_lines = (string_info*) calloc(amount_of_lines + 1, sizeof(string_info));
-
     if (pointers_to_lines == NULL)
     {
         printf("Cannot allocate memory\n");
         return -1;
     }
-    get_string_pointers(all_in_string, pointers_to_lines, read_symbols, amount_of_lines);
 
+    get_string_pointers(all_in_string, pointers_to_lines, read_symbols, amount_of_lines);
     char** copied_pointers_to_lines = (char**) calloc(amount_of_lines + 1, sizeof(char* )); //на 1 элемент больше, чтобы в конце массива всегда был нулевой указатель
     memcpy(copied_pointers_to_lines, pointers_to_lines, (amount_of_lines + 1) * sizeof(char*));
 
     bubble_sort(pointers_to_lines, amount_of_lines, my_strcmp);   //FIXME
-
     output_from_pointers(amount_of_lines, pointers_to_lines);
-    printf("%d\nsudaaaaaaaaaaaaaaaaaa\n", amount_of_lines); //5311 или 5312?
+
+    qsort(pointers_to_lines, amount_of_lines, sizeof(string_info), my_strcmp_reversed);
+    output_from_pointers(amount_of_lines, pointers_to_lines);
 
     free(copied_pointers_to_lines);
     free(all_in_string);

@@ -3,7 +3,22 @@
 #include <assert.h>
 #include <stdio.h>
 
+int my_fputs(const char* string, FILE* stream)
+{
+    assert(string != NULL);
+    assert(stream != NULL);
 
+    size_t counter = strlen(string);
+
+    while (*string != '\n')
+    {
+        if (fputc(*string, stream) == EOF)
+            return EOF;
+        string++;
+    }
+
+    return counter;
+}
 
 void strswap_govno(char* temp, char* str_first, char* str_second)
 {
@@ -119,23 +134,6 @@ int count_lines(char* all_in_string)
             break;
         counter++;
         all_in_string = current_pointer + 1;
-    }
-
-    return counter;
-}
-
-int my_fputs(const char* string, FILE* stream)
-{
-    assert(string != NULL);
-    assert(stream != NULL);
-
-    int counter = strlen(string);
-
-    while (*string != '\n')
-    {
-        if (fputc(*string, stream) == EOF)
-            return EOF;
-        string++;
     }
 
     return counter;
