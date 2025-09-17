@@ -2,11 +2,11 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <sys/stat.h>
 
 #include "string_functions.h"
 
-
-void output_from_pointers(int amount_of_lines, string_info* pointers_to_lines) //неважно, что в исходном массиве указатели уже в другом порядке, ведь в этот массив передаём копированную версию изначлаьного указателя
+void OutputFromPointers(int amount_of_lines, string_info* pointers_to_lines) //неважно, что в исходном массиве указатели уже в другом порядке, ведь в этот массив передаём копированную версию изначлаьного указателя
 {
     assert(pointers_to_lines != NULL);
 
@@ -14,18 +14,17 @@ void output_from_pointers(int amount_of_lines, string_info* pointers_to_lines) /
     {
         char* current_ptr = (pointers_to_lines[i]).ptr_to_beginning;
 
-        while (*current_ptr != '\n')
-        {
-            printf("%c", *current_ptr);
-            current_ptr++;
-        }
+        my_fputs(current_ptr, stdout);
         printf("\n");
     }
 }
 
 //FIXME assert
-void get_string_pointers(char* all_in_string, string_info* pointers_to_lines, long int amount_of_symbols, int max_lines)
+void GetStringPointers(char* all_in_string, string_info* pointers_to_lines, long int amount_of_symbols, int max_lines)
 {
+    assert(all_in_string != NULL);
+    assert(pointers_to_lines != NULL);
+
     pointers_to_lines[0].ptr_to_beginning = all_in_string;
 
     int current_line_index = 0; //FIXME иначе сдвиг в .line
@@ -45,6 +44,29 @@ void get_string_pointers(char* all_in_string, string_info* pointers_to_lines, lo
             length_of_line += 1;
     }
     // my_fputs(pointers_to_lines[0].ptr_to_beginning, stdout);
+}
+
+long int GetAmountOfSymbols(FILE *input_file)
+{
+    assert(input_file != NULL);
+
+    int file_descriptor = fileno(input_file); //получили файловый дескриптор
+    struct stat about_file;
+    fstat(file_descriptor, &about_file);
+    return about_file.st_size;
+}
+
+ssize_t ReadSymbolsFromFile(char* all_in_string, long int amount_of_symbols, FILE* input_file)
+{
+    assert(input_file != NULL);
+
+    if (all_in_string == NULL)
+    {
+        fprintf(stderr, "Cannot allocate memory\n");
+        return -1;
+    }
+    all_in_string[amount_of_symbols] = '\0';
+    return fread(all_in_string, sizeof(char), amount_of_symbols, input_file);
 }
 
 //ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить

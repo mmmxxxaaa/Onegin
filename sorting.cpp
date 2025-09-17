@@ -10,7 +10,7 @@
 #include "string_functions.h"
 #include "io.h"
 
-int my_strcmp(string_info string_1, string_info string_2)
+int MyStrcmp(string_info string_1, string_info string_2)
 {
     char* current_pointer_1 = string_1.ptr_to_beginning;
     char* current_pointer_2 = string_2.ptr_to_beginning;
@@ -33,14 +33,12 @@ int my_strcmp(string_info string_1, string_info string_2)
     return 0;
 }
 //FIXME заглавные и строчные буквы должны восприниматься одинаково
-int my_strcmp_reversed(const void* ptr_string_1, const void* ptr_string_2)
+int MyStrcmpReversed(const void* ptr_string_1, const void* ptr_string_2)
 {
     string_info string_1 = *((string_info*) ptr_string_1);
     string_info string_2 = *((string_info*) ptr_string_2);
 
     //чтобы не гонять по указателю каждый раз нужно создать копию структуры
-
-
     int length_1 = string_1.length;
     int length_2 = string_2.length;
 
@@ -75,7 +73,7 @@ int my_strcmp_reversed(const void* ptr_string_1, const void* ptr_string_2)
     return 1;
 }
 
-int my_strcmp_len(string_info string_1, string_info string_2)
+int MyStrcmpLen(string_info string_1, string_info string_2)
 {
     if (string_1.length > string_2.length)
         return 1;
@@ -84,7 +82,7 @@ int my_strcmp_len(string_info string_1, string_info string_2)
     return 0;
 }
 
-void bubble_sort(string_info* pointers_to_lines, int amount_of_lines, int (*comparator)(string_info string_1, string_info string_2)) //FIXME тайпдефнуть
+void BubbleSort(string_info* pointers_to_lines, int amount_of_lines, int (*comparator)(string_info string_1, string_info string_2)) //FIXME тайпдефнуть
 {
     assert(pointers_to_lines != NULL);
     assert(comparator != NULL);
@@ -100,7 +98,7 @@ void bubble_sort(string_info* pointers_to_lines, int amount_of_lines, int (*comp
         {
             if (comparator(pointers_to_lines[j], pointers_to_lines[j + 1]) == 1)
             {
-                swap_pointers(&(pointers_to_lines[j]), &(pointers_to_lines[j + 1]));
+                SwapPointers(&(pointers_to_lines[j]), &(pointers_to_lines[j + 1]));
                 swapped = 1;
             }
         }
@@ -110,7 +108,7 @@ void bubble_sort(string_info* pointers_to_lines, int amount_of_lines, int (*comp
     }
 }
 
-void swap_pointers(string_info* string_1, string_info* string_2)
+void SwapPointers(string_info* string_1, string_info* string_2)
 {
     assert(string_1 != NULL);
     assert(string_2 != NULL);

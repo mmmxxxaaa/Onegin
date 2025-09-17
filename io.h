@@ -10,11 +10,16 @@ typedef struct {
 
 } string_info;
 
+typedef struct {
+    int amount_of_lines;
+    long int amount_of_symbols;
+    char* all_in_string;
+    string_info* pointers_to_lines;
+} FileInfo;
 
-void output_from_pointers(int amount_of_lines, string_info* pointers_to_lines);
-void get_string_pointers(char* all_in_string, string_info* pointers_to_lines, long int amount_of_symbols, int max_lines);
-
-
-
+void OutputFromPointers(int amount_of_lines, string_info* pointers_to_lines);
+void GetStringPointers(char* all_in_string, string_info* pointers_to_lines, long int amount_of_symbols, int max_lines);
+long int GetAmountOfSymbols(FILE* input_file);
+ssize_t ReadSymbolsFromFile(char* all_in_string, long int amount_of_symbols, FILE* input_file);
 
 #endif // IO_H_

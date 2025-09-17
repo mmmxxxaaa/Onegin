@@ -61,7 +61,6 @@ void strswap_bykva(char* str_first, char* str_second)
     }
 }
 
-
 void strswap_pachka(char* str_first, char* str_second)
 {
     assert(str_first != NULL);
@@ -70,7 +69,6 @@ void strswap_pachka(char* str_first, char* str_second)
     int tmp_int = 0;
 //на линуксе просто /n, а в винде /r и /n !!!ИМЕННО В ТАКОМ ПОРЯДКЕ!!!
 //файлик создан на винде
-
 
     char* newline_char_first = strchr(str_first, '\n');
     char* newline_char_second = strchr(str_second, '\n');
@@ -104,7 +102,6 @@ void strswap_pachka(char* str_first, char* str_second)
 //то идея всё равно фигня потому что может быть жёсткий "рассинхрон" указателей
 //типа если один будет делиться на 4 с остатком 3, а другой с остатком 1, то всё пипиец
 
-
 //memmove хайповее memcpy
     char tmp_char = 0;
     for (int j = 0; j < char_iterations; j++)
@@ -119,8 +116,7 @@ void strswap_pachka(char* str_first, char* str_second)
     }
 }
 
-
-int count_lines(char* all_in_string)
+int CountLines(char* all_in_string)
 {
     assert(all_in_string != NULL);
 

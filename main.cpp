@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 
 #include "string_functions.h"
 #include "io.h"
@@ -17,45 +16,37 @@ int main()
         return -1;
     }
 
-    int file_descriptor = fileno(input_file); //получили файловый дескриптор
-    struct stat about_file;
-    fstat(file_descriptor, &about_file);
-    long int amount_of_symbols = about_file.st_size;
+    long int amount_of_symbols = GetAmountOfSymbols(input_file);
 
-    // char strings[15][42] = {0};  //42 = 40 + '\n' + '\0'
     char* all_in_string = (char*) calloc(amount_of_symbols + 1, sizeof(char));
-    if (all_in_string == NULL)
+    ssize_t success_read_symbols = ReadSymbolsFromFile(all_in_string, amount_of_symbols, input_file);
+    if (success_read_symbols == -1)
     {
-        printf("Cannot allocate memory\n");
+        fprintf(stderr, "Failed reading symbols from file");
         return -1;
     }
-    all_in_string[amount_of_symbols] = '\0';
-    size_t read_symbols = fread(all_in_string, sizeof(char), amount_of_symbols, input_file);
+    fclose(input_file);
 
-    int amount_of_lines = count_lines(all_in_string);
-
-    // char** pointers_to_lines = (char**) calloc(amount_of_lines + 1, sizeof(char* )); //на 1 элемент больше, чтобы в конце массива всегда был нулевой указатель
-    //FIXME
+    int amount_of_lines = CountLines(all_in_string);
     string_info* pointers_to_lines = (string_info*) calloc(amount_of_lines + 1, sizeof(string_info));
     if (pointers_to_lines == NULL)
     {
-        printf("Cannot allocate memory\n");
+        fprintf(stderr, "Cannot allocate memory\n");
         return -1;
     }
 
-    get_string_pointers(all_in_string, pointers_to_lines, read_symbols, amount_of_lines);
+    GetStringPointers(all_in_string, pointers_to_lines, success_read_symbols, amount_of_lines);
     char** copied_pointers_to_lines = (char**) calloc(amount_of_lines + 1, sizeof(char* )); //на 1 элемент больше, чтобы в конце массива всегда был нулевой указатель
     memcpy(copied_pointers_to_lines, pointers_to_lines, (amount_of_lines + 1) * sizeof(char*));
 
-    bubble_sort(pointers_to_lines, amount_of_lines, my_strcmp);   //FIXME
-    output_from_pointers(amount_of_lines, pointers_to_lines);
+    BubbleSort(pointers_to_lines, amount_of_lines, MyStrcmp);   //FIXME
+    OutputFromPointers(amount_of_lines, pointers_to_lines);
 
-    qsort(pointers_to_lines, amount_of_lines, sizeof(string_info), my_strcmp_reversed);
-    output_from_pointers(amount_of_lines, pointers_to_lines);
+    qsort(pointers_to_lines, amount_of_lines, sizeof(string_info), MyStrcmpReversed);
+    OutputFromPointers(amount_of_lines, pointers_to_lines);
 
     free(copied_pointers_to_lines);
     free(all_in_string);
     free(pointers_to_lines);
-    fclose(input_file);
     return 0;
 }
