@@ -21,7 +21,7 @@ int MyStrcmp(string_info string_1, string_info string_2)
     while (!isalpha(*current_pointer_2))
         current_pointer_2 += 1;
 
-    while (*current_pointer_1 != '\n' && *current_pointer_1 == *current_pointer_2)
+    while (*current_pointer_1 != '\n' && tolower(*current_pointer_1) == tolower(*current_pointer_2))
     {
         current_pointer_1 += 1;
         current_pointer_2 += 1;
@@ -54,8 +54,8 @@ int MyStrcmpReversed(const void* ptr_string_1, const void* ptr_string_2)
 
     while (current_pointer_1 >= beginning_pointer_1 && current_pointer_2 >= beginning_pointer_2)
     {
-        if (*current_pointer_1 != *current_pointer_2)
-            return (*current_pointer_1 > *current_pointer_2) ? 1 : -1;
+        if (tolower(*current_pointer_1) != tolower(*current_pointer_2))
+            return (tolower(*current_pointer_1) > tolower(*current_pointer_2)) ? 1 : -1;
 
         current_pointer_1 -= 1;
         current_pointer_2 -= 1;
