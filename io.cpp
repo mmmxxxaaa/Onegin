@@ -49,14 +49,12 @@ void GetStringPointers(char* all_in_string, string_info* pointers_to_lines, long
 
 int GetNameOfFile(char* ptr_filename, int name_size, int argc, char* argv[])
 {
-    if (argc == 1)
+    assert(ptr_filename != NULL);
+
+    if (argc != 2)
     {
-        printf("Enter the file name: \n");
-        if (scanf("%99s", ptr_filename) != 1)
-        {
-            fprintf(stderr, "Error reading filename");
-            return 0;
-        }
+        fprintf(stderr, "Failed reading command string argument: \n");
+        return 0;
     }
     else
     {

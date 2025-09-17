@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     int success_reading_filename = GetNameOfFile(filename, kFilenameSize, argc, argv);
     if (!success_reading_filename)
     {
-        fprintf(stderr, "Error reading filename");
+        fprintf(stderr, "Error reading filename\n");
         return -1;
     }
 
