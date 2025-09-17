@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-int my_fputs(const char* string, FILE* stream)
+int MyFputs(const char* string, FILE* stream)
 {
     assert(string != NULL);
     assert(stream != NULL);

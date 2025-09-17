@@ -10,7 +10,7 @@
 #include "string_functions.h"
 #include "io.h"
 
-int MyStrcmp(string_info string_1, string_info string_2)
+int MyStrcmp(StringInfo string_1, StringInfo string_2)
 {
     char* current_pointer_1 = string_1.ptr_to_beginning;
     char* current_pointer_2 = string_2.ptr_to_beginning;
@@ -35,8 +35,8 @@ int MyStrcmp(string_info string_1, string_info string_2)
 //FIXME заглавные и строчные буквы должны восприниматься одинаково
 int MyStrcmpReversed(const void* ptr_string_1, const void* ptr_string_2)
 {
-    string_info string_1 = *((string_info*) ptr_string_1);
-    string_info string_2 = *((string_info*) ptr_string_2);
+    StringInfo string_1 = *((StringInfo*) ptr_string_1);
+    StringInfo string_2 = *((StringInfo*) ptr_string_2);
 
     //чтобы не гонять по указателю каждый раз нужно создать копию структуры
     int length_1 = string_1.length;
@@ -73,7 +73,7 @@ int MyStrcmpReversed(const void* ptr_string_1, const void* ptr_string_2)
     return 1;
 }
 
-int MyStrcmpLen(string_info string_1, string_info string_2)
+int MyStrcmpLen(StringInfo string_1, StringInfo string_2)
 {
     if (string_1.length > string_2.length)
         return 1;
@@ -82,7 +82,7 @@ int MyStrcmpLen(string_info string_1, string_info string_2)
     return 0;
 }
 
-void BubbleSort(string_info* pointers_to_lines, int amount_of_lines, int (*comparator)(string_info string_1, string_info string_2)) //FIXME тайпдефнуть
+void BubbleSort(StringInfo* pointers_to_lines, int amount_of_lines, int (*comparator)(StringInfo string_1, StringInfo string_2)) //FIXME тайпдефнуть
 {
     assert(pointers_to_lines != NULL);
     assert(comparator != NULL);
@@ -108,23 +108,23 @@ void BubbleSort(string_info* pointers_to_lines, int amount_of_lines, int (*compa
     }
 }
 
-void SwapPointers(string_info* string_1, string_info* string_2)
+void SwapPointers(StringInfo* string_1, StringInfo* string_2)
 {
     assert(string_1 != NULL);
     assert(string_2 != NULL);
 
-    string_info tmp = *string_2;
+    StringInfo tmp = *string_2;
     *string_2 = *string_1;
     *string_1 = tmp;
 }
 //
 // //FIXME БЫЛО ТАК разобраться с функцией свапа
-// void swap_pointers(string_info* string_1, string_info* string_2)
+// void swap_pointers(StringInfo* string_1, StringInfo* string_2)
 // {
 //     assert(string_1 != NULL);
 //     assert(string_2 != NULL);
 //
-//     string_info* tmp = string_2;
+//     StringInfo* tmp = string_2;
 //     string_2 = string_1;
 //     string_1 = tmp;
 // }

@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
     fclose(input_file);
 
     int amount_of_lines = CountLines(all_in_string);
-    string_info* pointers_to_lines = (string_info*) calloc(amount_of_lines + 1, sizeof(string_info));
+    StringInfo* pointers_to_lines = (StringInfo*) calloc(amount_of_lines + 1, sizeof(StringInfo)); //массив структур инициализированных нулями
     if (pointers_to_lines == NULL)
     {
         fprintf(stderr, "Cannot allocate memory\n");
@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
     BubbleSort(pointers_to_lines, amount_of_lines, MyStrcmp);   //FIXME
     OutputFromPointers(amount_of_lines, pointers_to_lines);
 
-    qsort(pointers_to_lines, amount_of_lines, sizeof(string_info), MyStrcmpReversed);
+    qsort(pointers_to_lines, amount_of_lines, sizeof(StringInfo), MyStrcmpReversed);
     OutputFromPointers(amount_of_lines, pointers_to_lines);
 
     free(copied_pointers_to_lines);

@@ -7,7 +7,7 @@
 
 #include "string_functions.h"
 
-void OutputFromPointers(int amount_of_lines, string_info* pointers_to_lines) //неважно, что в исходном массиве указатели уже в другом порядке, ведь в этот массив передаём копированную версию изначлаьного указателя
+void OutputFromPointers(int amount_of_lines, StringInfo* pointers_to_lines) //неважно, что в исходном массиве указатели уже в другом порядке, ведь в этот массив передаём копированную версию изначлаьного указателя
 {
     assert(pointers_to_lines != NULL);
 
@@ -15,13 +15,12 @@ void OutputFromPointers(int amount_of_lines, string_info* pointers_to_lines) //�
     {
         char* current_ptr = (pointers_to_lines[i]).ptr_to_beginning;
 
-        my_fputs(current_ptr, stdout);
+        MyFputs(current_ptr, stdout);
         printf("\n");
     }
 }
 
-//FIXME assert
-void GetStringPointers(char* all_in_string, string_info* pointers_to_lines, long int amount_of_symbols, int max_lines)
+void GetStringPointers(char* all_in_string, StringInfo* pointers_to_lines, long int amount_of_symbols, int max_lines)
 {
     assert(all_in_string != NULL);
     assert(pointers_to_lines != NULL);
