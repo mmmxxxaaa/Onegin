@@ -8,6 +8,7 @@
 #include <string.h>
 
 #include "string_functions.h"
+#include "io.h"
 
 int my_strcmp(const char* string_1, const char* string_2)
 {
@@ -49,7 +50,7 @@ int my_strcmp_len(const char* string_1, const char* string_2)
     return 0;
 }
 
-void bubble_sort(char** pointers_to_lines, int amount_of_lines, int (*comparator)(const char* string_1, const char* string_2)) //FIXME тайпдефнуть
+void bubble_sort(string_info* pointers_to_lines, int amount_of_lines, int (*comparator)(const char* string_1, const char* string_2)) //FIXME тайпдефнуть
 {
     assert(pointers_to_lines != NULL);
     assert(comparator != NULL);
@@ -65,14 +66,14 @@ void bubble_sort(char** pointers_to_lines, int amount_of_lines, int (*comparator
         for (int j = 0; j < amount_of_lines - i - 1; j++) //FIXME убрал -1
         {
             // printf("xyi %d\n", j);
-            if (comparator(pointers_to_lines[j], pointers_to_lines[j + 1]) == 1)
+            if (comparator((pointers_to_lines[j]).ptr_to_beginning, (pointers_to_lines[j + 1]).ptr_to_beginning) == 1)
             {
                 // printf("check string\n");
                 // printf("%s\n", pointer_to_pointers_to_lines[j]);
                 // my_fputs(pointers_to_lines[j], stdout);
                 // my_fputs(pointers_to_lines[j+1], stdout);
                 // printf("swapped\n");
-                swap_pointers(&pointers_to_lines[j], &pointers_to_lines[j + 1]);
+                swap_pointers(&((pointers_to_lines[j]).ptr_to_beginning), &((pointers_to_lines[j + 1]).ptr_to_beginning));
                 swapped = 1;
             }
         }

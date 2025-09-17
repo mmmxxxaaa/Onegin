@@ -129,7 +129,7 @@ int my_fputs(const char* string, FILE* stream)
     assert(string != NULL);
     assert(stream != NULL);
 
-    size_t counter = strlen(string);
+    int counter = strlen(string);
 
     while (*string != '\n')
     {

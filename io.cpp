@@ -4,13 +4,13 @@
 #include <assert.h>
 
 
-void output_from_pointers(int amount_of_lines, char** pointers_to_lines) //неважно, что в исходном массиве указатели уже в другом порядке, ведь в этот массив передаём копированную версию изначлаьного указателя
+void output_from_pointers(int amount_of_lines, string_info* pointers_to_lines) //неважно, что в исходном массиве указатели уже в другом порядке, ведь в этот массив передаём копированную версию изначлаьного указателя
 {
     assert(pointers_to_lines != NULL);
 
     for (int i = 0; i < amount_of_lines; i++)
     {
-        char* current_ptr = pointers_to_lines[i];
+        char* current_ptr = (pointers_to_lines[i]).ptr_to_beginning;
         // Выводим каждый символ до '\n' или '\0'
         while (*current_ptr && *current_ptr != '\n') {
             printf("%c", *current_ptr);
