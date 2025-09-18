@@ -8,10 +8,12 @@
 #include "string.h"
 
 const int kFilenameSize = 100;
+const int kInputFilenameIndex = 1;
+const int kOutputFilenameIndex = 2;
 
 int main(int argc, char* argv[])
 {
-    char* input_filename = GetNameOfFile(kFilenameSize, argc, argv);
+    char* input_filename = GetNameOfFile(kFilenameSize, argc, argv, kInputFilenameIndex);
     if (input_filename == NULL)
     {
         fprintf(stderr, "Error reading filename\n");
@@ -46,16 +48,29 @@ int main(int argc, char* argv[])
     }
 
     GetStringPointers(&file_info); //ДЕЛО СДЕЛАНО указатель на структуру в функцию
-    char** copied_pointers_to_lines = (char**) calloc(file_info.amount_of_lines + 1, sizeof(char* )); //на 1 элемент больше, чтобы в конце массива всегда был нулевой указатель
-    memcpy(copied_pointers_to_lines, file_info.pointers_to_lines, (file_info.amount_of_lines + 1) * sizeof(char*));
+
+    char* output_filename = GetNameOfFile(kFilenameSize, argc, argv, kOutputFilenameIndex);
+    if (output_filename == NULL)
+    {
+        fprintf(stderr, "Error reading filename\n");
+        return -1;
+    }
+
+    FILE* output_file = fopen(output_filename, "a");
+    if (output_file == NULL)
+    {
+        printf("Cannot open the file \"%s\"\n", output_filename);
+        return -1;
+    }
 
     BubbleSort(file_info.pointers_to_lines, file_info.amount_of_lines, MyStrcmp);   //FIXME
-    OutputFromPointers(file_info.amount_of_lines, file_info.pointers_to_lines);
+    OutputFromPointers(output_file, file_info.amount_of_lines, file_info.pointers_to_lines);
 
     qsort(file_info.pointers_to_lines, file_info.amount_of_lines, sizeof(StringInfo), MyStrcmpReversed);
-    OutputFromPointers(file_info.amount_of_lines, file_info.pointers_to_lines);
+    OutputFromPointers(output_file, file_info.amount_of_lines, file_info.pointers_to_lines);
 
-    free(copied_pointers_to_lines);
+    fprintf(output_file, "%s\n", file_info.text_buffer);
+
     free(file_info.text_buffer);
     free(file_info.pointers_to_lines);
     return 0;

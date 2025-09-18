@@ -7,16 +7,17 @@
 
 #include "string_functions.h"
 
-void OutputFromPointers(int amount_of_lines, StringInfo* pointers_to_lines) //неважно, что в исходном массиве указатели уже в другом порядке, ведь в этот массив передаём копированную версию изначлаьного указателя
+void OutputFromPointers(FILE* output_file, int amount_of_lines, StringInfo* pointers_to_lines) //неважно, что в исходном массиве указатели уже в другом порядке, ведь в этот массив передаём копированную версию изначлаьного указателя
 {
+    assert(output_file != NULL);
     assert(pointers_to_lines != NULL);
 
     for (int i = 0; i < amount_of_lines; i++)
     {
         char* current_ptr = (pointers_to_lines[i]).ptr_to_beginning;
 
-        MyFputs(current_ptr, stdout);
-        printf("\n");
+        MyFputs(current_ptr, output_file);
+        fprintf(output_file, "\n");
     }
 }
 
@@ -45,16 +46,16 @@ void GetStringPointers(FileInfo* file_info) //ДЕЛО СДЕЛАНО
     // my_fputs(pointers_to_lines[0].ptr_to_beginning, stdout);
 }
 
-char* GetNameOfFile(int name_size, int argc, char* argv[])
+char* GetNameOfFile(int name_size, int argc, char* argv[], int index_of_filename)
 {
     assert(argv != NULL);
 
-    if (argc != 2)
+    if (argc <= index_of_filename)
     {
         fprintf(stderr, "Failed reading command string argument: \n");
         return NULL;
     }
-    return argv[1];
+    return argv[index_of_filename];
 }
 
 long int GetAmountOfSymbols(FILE *input_file)
