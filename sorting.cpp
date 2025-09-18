@@ -91,10 +91,10 @@ void BubbleSort(StringInfo* pointers_to_lines, int amount_of_lines, int (*compar
         return; //случай, когда массив пустой или состоит из одного элемента
 
     int swapped = 0;
-    for (int i = 0; i < amount_of_lines - 1; i++) //FIXME убрал -1
+    for (int i = 0; i < amount_of_lines - 1; i++)
     {
         swapped = 0;
-        for (int j = 0; j < amount_of_lines - i - 1; j++) //FIXME убрал -1
+        for (int j = 0; j < amount_of_lines - i - 1; j++)
         {
             if (comparator(pointers_to_lines[j], pointers_to_lines[j + 1]) == 1)
             {
@@ -117,14 +117,4 @@ void SwapPointers(StringInfo* string_1, StringInfo* string_2)
     *string_2 = *string_1;
     *string_1 = tmp;
 }
-//
-// //FIXME БЫЛО ТАК разобраться с функцией свапа
-// void swap_pointers(StringInfo* string_1, StringInfo* string_2)
-// {
-//     assert(string_1 != NULL);
-//     assert(string_2 != NULL);
-//
-//     StringInfo* tmp = string_2;
-//     string_2 = string_1;
-//     string_1 = tmp;
-// }
+

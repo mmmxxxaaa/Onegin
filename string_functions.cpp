@@ -26,7 +26,7 @@ void StrswapGovno(char* temp, char* str_first, char* str_second)
     assert(str_first != NULL);
     assert(str_second != NULL);
 
-    strcpy(temp, str_first); //FIXME проверка длины (не нужна)
+    strcpy(temp, str_first);
     strcpy(str_first, str_second);
     strcpy(str_second, temp);
 }
@@ -79,7 +79,7 @@ void StrswapPachka(char* str_first, char* str_second)
     }
 
     long int end_pos_first = newline_char_first + 1 - str_first; //находим индекс \n strlen
-    long int end_pos_second = newline_char_second + 1 - str_second; //FIXME проверить, нашёлся ли вообще \n
+    long int end_pos_second = newline_char_second + 1 - str_second;
 
     long int max_pos = (end_pos_first > end_pos_second)? end_pos_first : end_pos_second;
 
@@ -88,21 +88,14 @@ void StrswapPachka(char* str_first, char* str_second)
 
     for (long unsigned int i = 0; i < int_iterations; i++)
     {
-        tmp_int = *((int*) str_first);   //FIXME вопрос ДЕДУ
-        //сначала нужно дойти до адреса кратного четырём побайтово, а потом уже пачками хуярить
-        *((int*) str_first) = *((int*) str_second);   //FIXME можно ли через memcpy? Вроде как у нас задание сделать это через явное приведение типов
-        *((int*) str_second) = tmp_int;               //FIXME почему так нельзя? Что за "выравнивание"
+        tmp_int = *((int*) str_first);
+        *((int*) str_first) = *((int*) str_second);
+        *((int*) str_second) = tmp_int;
 
         str_first += sizeof(int);
         str_second += sizeof(int);
     }
 
-//через это не работает, потому что даже если мы приведём указатель
-//к кратному на 4 и потом захотим оставшиеся после передач пачками доведем побайтовыми свапами
-//то идея всё равно фигня потому что может быть жёсткий "рассинхрон" указателей
-//типа если один будет делиться на 4 с остатком 3, а другой с остатком 1, то всё пипиец
-
-//memmove хайповее memcpy
     char tmp_char = 0;
     for (int j = 0; j < char_iterations; j++)
     {

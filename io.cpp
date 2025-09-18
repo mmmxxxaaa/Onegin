@@ -7,7 +7,7 @@
 
 #include "string_functions.h"
 
-void OutputFromPointers(FILE* output_file, int amount_of_lines, StringInfo* pointers_to_lines) //неважно, что в исходном массиве указатели уже в другом порядке, ведь в этот массив передаём копированную версию изначлаьного указателя
+void OutputFromPointers(FILE* output_file, int amount_of_lines, StringInfo* pointers_to_lines)
 {
     assert(output_file != NULL);
     assert(pointers_to_lines != NULL);
@@ -17,11 +17,11 @@ void OutputFromPointers(FILE* output_file, int amount_of_lines, StringInfo* poin
         char* current_ptr = (pointers_to_lines[i]).ptr_to_beginning;
 
         MyFputs(current_ptr, output_file);
-        fprintf(output_file, "\n");
+        fputc('\n', output_file);
     }
 }
 
-void GetStringPointers(FileInfo* file_info) //ДЕЛО СДЕЛАНО
+void GetStringPointers(FileInfo* file_info)
 {
     assert(file_info != NULL);
 
@@ -31,9 +31,9 @@ void GetStringPointers(FileInfo* file_info) //ДЕЛО СДЕЛАНО
     int length_of_line = 0;
     for (long int karetka = 0; karetka < file_info->amount_of_symbols; karetka++)
     {
-        if (current_line_index >= file_info->amount_of_lines) //FIXME почему без этого не работает
+        if (current_line_index >= file_info->amount_of_lines)
             break;
-        if (file_info->text_buffer[karetka] == '\n') //FIXME это же будет долго????
+        if (file_info->text_buffer[karetka] == '\n') //MENTOR это же будет долго????
         {
             file_info->pointers_to_lines[current_line_index].length = length_of_line;
             current_line_index++;
@@ -43,7 +43,6 @@ void GetStringPointers(FileInfo* file_info) //ДЕЛО СДЕЛАНО
         else
             length_of_line += 1;
     }
-    // my_fputs(pointers_to_lines[0].ptr_to_beginning, stdout);
 }
 
 char* GetNameOfFile(int name_size, int argc, char* argv[], int index_of_filename)
@@ -89,23 +88,5 @@ ssize_t ReadSymbolsFromFile(char* text_buffer, long int amount_of_symbols, FILE*
     return success_read_symbols;
 }
 
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ Проблема была в следующем: после сортировки указатели в массиве pointers_to_lines больше не указывают на последовательные участки памяти и поэтому нах вычисление длины строки как разности между двумя соседними указателями некорректно
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить
-//ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить
-//     for (int vivodblyat = 0; vivodblyat < amount_of_lines; vivoblyat++)
-//     {
-//         char* ptr_str1 = pointers_to_lines[vivoblyat];
-//         char* ptr_str2 = pointers_to_lines[vivoblyat+1];
-//
-//         for (int index = 0; index < (ptr_str2 - ptr_str1); index++)
-//             printf("%c", *(ptr_str1 + index));
-//     }
+
 

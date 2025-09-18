@@ -13,7 +13,7 @@ const int kOutputFilenameIndex = 2;
 
 int main(int argc, char* argv[])
 {
-    char* input_filename = GetNameOfFile(kFilenameSize, argc, argv, kInputFilenameIndex);
+    char* input_filename = GetNameOfFile(kFilenameSize, argc, argv, kInputFilenameIndex); //FIXME всю обработку файлов в отдельные функции
     if (input_filename == NULL)
     {
         fprintf(stderr, "Error reading filename\n");
@@ -31,6 +31,11 @@ int main(int argc, char* argv[])
     file_info.amount_of_symbols = GetAmountOfSymbols(input_file);
 
     file_info.text_buffer = (char*) calloc(file_info.amount_of_symbols + 1, sizeof(char));
+    if (file_info.text_buffer == NULL)
+    {
+        fprintf(stderr, "Cannot allocate memory\n");
+        return -1;
+    }
     ssize_t success_read_symbols = ReadSymbolsFromFile(file_info.text_buffer, file_info.amount_of_symbols, input_file);
     if (success_read_symbols == -1)
     {
@@ -63,7 +68,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    BubbleSort(file_info.pointers_to_lines, file_info.amount_of_lines, MyStrcmp);   //FIXME
+    BubbleSort(file_info.pointers_to_lines, file_info.amount_of_lines, MyStrcmp);
     OutputFromPointers(output_file, file_info.amount_of_lines, file_info.pointers_to_lines);
 
     qsort(file_info.pointers_to_lines, file_info.amount_of_lines, sizeof(StringInfo), MyStrcmpReversed);
