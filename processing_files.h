@@ -3,9 +3,11 @@
 
 #include <stdio.h>
 #include "io.h"
+#include "errors_codes.h"
 
-int ProcessingInputFile(FileInfo* ptr_file_info, char** argv);
+ErrorsCodes ProcessingInputFile(FileInfo* ptr_file_info, char** argv);
 FILE* ProcessingOutputFile(char** argv);
+ErrorsCodes ConstructFileInfo(FileInfo* ptr_file_info, char** argv);
 
 
 #endif // PROCESSING_FILES_H_

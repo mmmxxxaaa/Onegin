@@ -8,8 +8,6 @@
 
 #include "string.h"
 
-int ConstructFileInfo(FileInfo* ptr_file_info, char** argv);
-
 int main(int argc, char** argv)
 {
     FileInfo file_info = {0};                                                       //FIXME разобраться с варнингами через функцию, принимающая знаковый тип, которая проверяет >= 0 и приводит его к беззнаковому типу
@@ -31,18 +29,4 @@ int main(int argc, char** argv)
 }
 
 
-int ConstructFileInfo(FileInfo* ptr_file_info, char** argv)
-{
-    ProcessingInputFile(ptr_file_info, argv);
 
-    ptr_file_info->amount_of_lines = CountLines(ptr_file_info->text_buffer);
-    ptr_file_info->pointers_to_lines = (StringInfo*) calloc(ptr_file_info->amount_of_lines + 1, sizeof(StringInfo));
-    if (ptr_file_info->pointers_to_lines == NULL)
-    {
-        fprintf(stderr, "Cannot allocate memory\n");
-        return 0;
-    }
-
-    GetStringPointers(ptr_file_info);
-    return 1;
-}
