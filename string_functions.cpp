@@ -20,7 +20,7 @@ int MyFputs(const char* string, FILE* stream)
     return counter;
 }
 
-void strswap_govno(char* temp, char* str_first, char* str_second)
+void StrswapGovno(char* temp, char* str_first, char* str_second)
 {
     assert(temp != NULL);
     assert(str_first != NULL);
@@ -31,7 +31,7 @@ void strswap_govno(char* temp, char* str_first, char* str_second)
     strcpy(str_second, temp);
 }
 
-void strswap_bykva(char* str_first, char* str_second)
+void StrswapBykva(char* str_first, char* str_second)
 {
     assert(str_first != NULL);
     assert(str_second != NULL);
@@ -61,7 +61,7 @@ void strswap_bykva(char* str_first, char* str_second)
     }
 }
 
-void strswap_pachka(char* str_first, char* str_second)
+void StrswapPachka(char* str_first, char* str_second)
 {
     assert(str_first != NULL);
     assert(str_second != NULL);

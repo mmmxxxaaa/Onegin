@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    GetStringPointers(file_info.all_in_string, file_info.pointers_to_lines, success_read_symbols, file_info.amount_of_lines);
+    GetStringPointers(&file_info); //ДЕЛО СДЕЛАНО указатель на структуру в функцию
     char** copied_pointers_to_lines = (char**) calloc(file_info.amount_of_lines + 1, sizeof(char* )); //на 1 элемент больше, чтобы в конце массива всегда был нулевой указатель
     memcpy(copied_pointers_to_lines, file_info.pointers_to_lines, (file_info.amount_of_lines + 1) * sizeof(char*));
 

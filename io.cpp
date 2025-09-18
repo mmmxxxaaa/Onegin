@@ -20,24 +20,23 @@ void OutputFromPointers(int amount_of_lines, StringInfo* pointers_to_lines) //н
     }
 }
 
-void GetStringPointers(char* all_in_string, StringInfo* pointers_to_lines, long int amount_of_symbols, int max_lines)
+void GetStringPointers(FileInfo* file_info) //ДЕЛО СДЕЛАНО
 {
-    assert(all_in_string != NULL);
-    assert(pointers_to_lines != NULL);
+    assert(file_info != NULL);
 
-    pointers_to_lines[0].ptr_to_beginning = all_in_string;
+    (file_info->pointers_to_lines[0]).ptr_to_beginning = file_info->all_in_string;
 
-    int current_line_index = 0; //FIXME иначе сдвиг в .line
+    int current_line_index = 0; //FIXME иначе сдвиг в .line запомнить запомнить запомнить запомнить!!!!
     int length_of_line = 0;
-    for (long int karetka = 0; karetka < amount_of_symbols; karetka++)
+    for (long int karetka = 0; karetka < file_info->amount_of_symbols; karetka++)
     {
-        if (current_line_index >= max_lines) //FIXME почему без этого не работает
+        if (current_line_index >= file_info->amount_of_lines) //FIXME почему без этого не работает
             break;
-        if (all_in_string[karetka] == '\n')
+        if (file_info->all_in_string[karetka] == '\n') //FIXME это же будет долго????
         {
-            pointers_to_lines[current_line_index].length = length_of_line;
+            file_info->pointers_to_lines[current_line_index].length = length_of_line;
             current_line_index++;
-            pointers_to_lines[current_line_index].ptr_to_beginning = &all_in_string[karetka + 1];
+            (file_info->pointers_to_lines[current_line_index]).ptr_to_beginning = &(file_info->all_in_string[karetka + 1]);
             length_of_line = 0;
         }
         else

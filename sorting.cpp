@@ -32,7 +32,7 @@ int MyStrcmp(StringInfo string_1, StringInfo string_2)
         return -1;
     return 0;
 }
-//FIXME заглавные и строчные буквы должны восприниматься одинаково
+//ДЕЛО СДЕЛАНО заглавные и строчные буквы должны восприниматься одинаково
 int MyStrcmpReversed(const void* ptr_string_1, const void* ptr_string_2)
 {
     StringInfo string_1 = *((StringInfo*) ptr_string_1);
