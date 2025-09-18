@@ -3,23 +3,6 @@
 #include <assert.h>
 #include <stdio.h>
 
-size_t MyFputs(const char* string, FILE* stream)
-{
-    assert(string != NULL);
-    assert(stream != NULL);
-
-    size_t counter = strlen(string);
-
-    while (*string != '\n')
-    {
-        if (fputc(*string, stream) == EOF)
-            return 0;
-        string++;
-    }
-
-    return counter;
-}
-
 void StrswapGovno(char* temp, char* str_first, char* str_second)
 {
     assert(temp != NULL);
@@ -67,8 +50,6 @@ void StrswapPachka(char* str_first, char* str_second)
     assert(str_second != NULL);
 
     int tmp_int = 0;
-//на линуксе просто /n, а в винде /r и /n !!!ИМЕННО В ТАКОМ ПОРЯДКЕ!!!
-//файлик создан на винде
 
     char* newline_char_first = strchr(str_first, '\n');
     char* newline_char_second = strchr(str_second, '\n');

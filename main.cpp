@@ -4,68 +4,19 @@
 #include "string_functions.h"
 #include "io.h"
 #include "sorting.h"
+#include "processing_files.h"
 
 #include "string.h"
 
-const int kInputFilenameIndex = 1;
-const int kOutputFilenameIndex = 2;
+int ConstructFileInfo(FileInfo* ptr_file_info, char** argv);
 
-int main(int argc, char* argv[])
-{                                                                          //FIXME разобраться с варнингами через функцию, принимающая знаковый тип, которая проверяет >= 0 и приводит его к беззнаковому типу
-    char* input_filename = GetNameOfFile(argc, argv, kInputFilenameIndex); //FIXME всю обработку файлов в отдельные функции
-    if (input_filename == NULL)
-    {
-        fprintf(stderr, "Error reading filename\n");
-        return -1;
-    }
-
-    FILE* input_file = fopen(input_filename, "r");
-    if (input_file == NULL)
-    {
-        printf("Cannot open the file \"%s\"\n", input_filename);
-        return -1;
-    }
-
-    FileInfo file_info = {0};
-    file_info.amount_of_symbols = GetAmountOfSymbols(input_file);
-
-    file_info.text_buffer = (char*) calloc(file_info.amount_of_symbols + 1, sizeof(char));
-    if (file_info.text_buffer == NULL)
-    {
-        fprintf(stderr, "Cannot allocate memory\n");
-        return -1;
-    }
-    ssize_t success_read_symbols = ReadSymbolsFromFile(file_info.text_buffer, file_info.amount_of_symbols, input_file);
-    if (success_read_symbols == -1)
-    {
-        fprintf(stderr, "Failed reading symbols from file");
-        return -1;
-    }
-    fclose(input_file);
-
-    file_info.amount_of_lines = CountLines(file_info.text_buffer);
-    file_info.pointers_to_lines = (StringInfo*) calloc(file_info.amount_of_lines + 1, sizeof(StringInfo)); //массив структур инициализированных нулями
-    if (file_info.pointers_to_lines == NULL)
-    {
-        fprintf(stderr, "Cannot allocate memory\n");
-        return -1;
-    }
-
-    GetStringPointers(&file_info); //ДЕЛО СДЕЛАНО указатель на структуру в функцию
-
-    char* output_filename = GetNameOfFile(argc, argv, kOutputFilenameIndex);
-    if (output_filename == NULL)
-    {
-        fprintf(stderr, "Error reading filename\n");
-        return -1;
-    }
-
-    FILE* output_file = fopen(output_filename, "a");
-    if (output_file == NULL)
-    {
-        printf("Cannot open the file \"%s\"\n", output_filename);
-        return -1;
-    }
+int main(int argc, char** argv)
+{
+    FileInfo file_info = {0};                                                       //FIXME разобраться с варнингами через функцию, принимающая знаковый тип, которая проверяет >= 0 и приводит его к беззнаковому типу
+//------------
+    ConstructFileInfo(&file_info, argv);
+//-----------
+    FILE* output_file = ProcessingOutputFile(argv);
 
     BubbleSort(file_info.pointers_to_lines, file_info.amount_of_lines, MyStrcmp);
     OutputFromPointers(output_file, file_info.amount_of_lines, file_info.pointers_to_lines);
@@ -77,4 +28,21 @@ int main(int argc, char* argv[])
 
     FreeStructFileInfo(&file_info);
     return 0;
+}
+
+
+int ConstructFileInfo(FileInfo* ptr_file_info, char** argv)
+{
+    ProcessingInputFile(ptr_file_info, argv);
+
+    ptr_file_info->amount_of_lines = CountLines(ptr_file_info->text_buffer);
+    ptr_file_info->pointers_to_lines = (StringInfo*) calloc(ptr_file_info->amount_of_lines + 1, sizeof(StringInfo));
+    if (ptr_file_info->pointers_to_lines == NULL)
+    {
+        fprintf(stderr, "Cannot allocate memory\n");
+        return 0;
+    }
+
+    GetStringPointers(ptr_file_info);
+    return 1;
 }

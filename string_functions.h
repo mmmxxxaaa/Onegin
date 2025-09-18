@@ -7,7 +7,6 @@ void StrswapGovno(char* temp, char* str_first, char* str_second);
 void StrswapBykva(char* str_first, char* str_second);
 void StrswapPachka(char* str_first, char* str_second);
 
-size_t MyFputs(const char* string, FILE* stream);
 int CountLines(char* text_buffer);
 
 

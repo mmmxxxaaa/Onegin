@@ -15,10 +15,10 @@ int MyStrcmp(StringInfo string_1, StringInfo string_2)
     char* current_pointer_1 = string_1.ptr_to_beginning;
     char* current_pointer_2 = string_2.ptr_to_beginning;
 
-    while (!isalpha(*current_pointer_1))
+    while (!isalpha(*current_pointer_1) && (*current_pointer_1 != '\0') && (*current_pointer_1 != '\n'))
         current_pointer_1 += 1;
 
-    while (!isalpha(*current_pointer_2))
+    while (!isalpha(*current_pointer_2) && (*current_pointer_2 != '\0') && (*current_pointer_1 != '\n'))
         current_pointer_2 += 1;
 
     while (*current_pointer_1 != '\n' && tolower(*current_pointer_1) == tolower(*current_pointer_2))

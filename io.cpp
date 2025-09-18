@@ -28,36 +28,40 @@ void GetStringPointers(FileInfo* file_info)
 
     (file_info->pointers_to_lines[0]).ptr_to_beginning = file_info->text_buffer;
 
-    int current_line_index = 0; //FIXME иначе сдвиг в .line запомнить запомнить запомнить запомнить!!!!
+    int current_line_index = 0;
     int length_of_line = 0;
-    for (long int karetka = 0; karetka < file_info->amount_of_symbols; karetka++)
+    long int n_symbols = file_info->amount_of_symbols;
+    for (long int karetka = 0; karetka < n_symbols; karetka++) // ДЕЛО СДЕЛАНО
     {
         if (current_line_index >= file_info->amount_of_lines)
             break;
 
-        if (file_info->text_buffer[karetka] == '\n') //MENTOR это же будет долго????
+        if (file_info->text_buffer[karetka] == '\n')
         {
             file_info->pointers_to_lines[current_line_index].length = length_of_line;
             current_line_index++;
             (file_info->pointers_to_lines[current_line_index]).ptr_to_beginning = &(file_info->text_buffer[karetka + 1]);
+            // &(file_info->text_buffer[karetka + 1]) == file_info->text_buffer + karetka + 1
+            // &(a[2]) == &*(a+2) == a+2
+            // &*&*a == a
             length_of_line = 0;
         }
         else
             length_of_line += 1;
     }
 }
-
-char* GetNameOfFile(int argc, char* argv[], int index_of_filename)
-{
-    assert(argv != NULL);
-
-    if (argc <= index_of_filename)
-    {
-        fprintf(stderr, "Failed reading command string argument: \n");
-        return NULL;
-    }
-    return argv[index_of_filename];
-}
+// ЭТО ИМЕННО РЕСПЕКТ
+// char* GetNameOfFile(int argc, char* argv[], int index_of_filename)
+// {
+//     assert(argv != NULL);
+//
+//     if (argc <= index_of_filename)
+//     {
+//         fprintf(stderr, "Failed reading command string argument: \n");
+//         return NULL;
+//     }
+//     return argv[index_of_filename];
+// }
 
 long int GetAmountOfSymbols(FILE *input_file)
 {
@@ -73,7 +77,7 @@ long int GetAmountOfSymbols(FILE *input_file)
 ssize_t ReadSymbolsFromFile(char* text_buffer, long int amount_of_symbols, FILE* input_file)
 {
     assert(input_file != NULL);
-
+//ассерт
     if (text_buffer == NULL)
     {
         fprintf(stderr, "Cannot allocate memory\n");
@@ -94,4 +98,21 @@ void FreeStructFileInfo(FileInfo *file_info)
 {
     free(file_info->text_buffer);
     free(file_info->pointers_to_lines);
+}
+
+size_t MyFputs(const char* string, FILE* stream)
+{
+    assert(string != NULL);
+    assert(stream != NULL);
+
+    size_t counter = strlen(string);
+
+    while ((*string != '\n') && (*string != '\0'))
+    {
+        if (fputc(*string, stream) == EOF)
+            return 0;
+        string++;
+    }
+
+    return counter;
 }
