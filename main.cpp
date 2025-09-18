@@ -26,10 +26,11 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    long int amount_of_symbols = GetAmountOfSymbols(input_file);
+    FileInfo file_info = {0};
+    file_info.amount_of_symbols = GetAmountOfSymbols(input_file);
 
-    char* all_in_string = (char*) calloc(amount_of_symbols + 1, sizeof(char));
-    ssize_t success_read_symbols = ReadSymbolsFromFile(all_in_string, amount_of_symbols, input_file);
+    file_info.all_in_string = (char*) calloc(file_info.amount_of_symbols + 1, sizeof(char));
+    ssize_t success_read_symbols = ReadSymbolsFromFile(file_info.all_in_string, file_info.amount_of_symbols, input_file);
     if (success_read_symbols == -1)
     {
         fprintf(stderr, "Failed reading symbols from file");
@@ -37,26 +38,26 @@ int main(int argc, char* argv[])
     }
     fclose(input_file);
 
-    int amount_of_lines = CountLines(all_in_string);
-    StringInfo* pointers_to_lines = (StringInfo*) calloc(amount_of_lines + 1, sizeof(StringInfo)); //массив структур инициализированных нулями
-    if (pointers_to_lines == NULL)
+    file_info.amount_of_lines = CountLines(file_info.all_in_string);
+    file_info.pointers_to_lines = (StringInfo*) calloc(file_info.amount_of_lines + 1, sizeof(StringInfo)); //массив структур инициализированных нулями
+    if (file_info.pointers_to_lines == NULL)
     {
         fprintf(stderr, "Cannot allocate memory\n");
         return -1;
     }
 
-    GetStringPointers(all_in_string, pointers_to_lines, success_read_symbols, amount_of_lines);
-    char** copied_pointers_to_lines = (char**) calloc(amount_of_lines + 1, sizeof(char* )); //на 1 элемент больше, чтобы в конце массива всегда был нулевой указатель
-    memcpy(copied_pointers_to_lines, pointers_to_lines, (amount_of_lines + 1) * sizeof(char*));
+    GetStringPointers(file_info.all_in_string, file_info.pointers_to_lines, success_read_symbols, file_info.amount_of_lines);
+    char** copied_pointers_to_lines = (char**) calloc(file_info.amount_of_lines + 1, sizeof(char* )); //на 1 элемент больше, чтобы в конце массива всегда был нулевой указатель
+    memcpy(copied_pointers_to_lines, file_info.pointers_to_lines, (file_info.amount_of_lines + 1) * sizeof(char*));
 
-    BubbleSort(pointers_to_lines, amount_of_lines, MyStrcmp);   //FIXME
-    OutputFromPointers(amount_of_lines, pointers_to_lines);
+    BubbleSort(file_info.pointers_to_lines, file_info.amount_of_lines, MyStrcmp);   //FIXME
+    OutputFromPointers(file_info.amount_of_lines, file_info.pointers_to_lines);
 
-    qsort(pointers_to_lines, amount_of_lines, sizeof(StringInfo), MyStrcmpReversed);
-    OutputFromPointers(amount_of_lines, pointers_to_lines);
+    qsort(file_info.pointers_to_lines, file_info.amount_of_lines, sizeof(StringInfo), MyStrcmpReversed);
+    OutputFromPointers(file_info.amount_of_lines, file_info.pointers_to_lines);
 
     free(copied_pointers_to_lines);
-    free(all_in_string);
-    free(pointers_to_lines);
+    free(file_info.all_in_string);
+    free(file_info.pointers_to_lines);
     return 0;
 }
