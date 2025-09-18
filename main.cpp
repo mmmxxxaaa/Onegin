@@ -11,26 +11,25 @@ const int kFilenameSize = 100;
 
 int main(int argc, char* argv[])
 {
-    char filename[kFilenameSize];
-    int success_reading_filename = GetNameOfFile(filename, kFilenameSize, argc, argv);
-    if (!success_reading_filename)
+    char* input_filename = GetNameOfFile(kFilenameSize, argc, argv);
+    if (input_filename == NULL)
     {
         fprintf(stderr, "Error reading filename\n");
         return -1;
     }
 
-    FILE* input_file = fopen(filename, "r");
+    FILE* input_file = fopen(input_filename, "r");
     if (input_file == NULL)
     {
-        printf("Cannot open the file \"%s\"\n", filename);
+        printf("Cannot open the file \"%s\"\n", input_filename);
         return -1;
     }
 
     FileInfo file_info = {0};
     file_info.amount_of_symbols = GetAmountOfSymbols(input_file);
 
-    file_info.all_in_string = (char*) calloc(file_info.amount_of_symbols + 1, sizeof(char));
-    ssize_t success_read_symbols = ReadSymbolsFromFile(file_info.all_in_string, file_info.amount_of_symbols, input_file);
+    file_info.text_buffer = (char*) calloc(file_info.amount_of_symbols + 1, sizeof(char));
+    ssize_t success_read_symbols = ReadSymbolsFromFile(file_info.text_buffer, file_info.amount_of_symbols, input_file);
     if (success_read_symbols == -1)
     {
         fprintf(stderr, "Failed reading symbols from file");
@@ -38,7 +37,7 @@ int main(int argc, char* argv[])
     }
     fclose(input_file);
 
-    file_info.amount_of_lines = CountLines(file_info.all_in_string);
+    file_info.amount_of_lines = CountLines(file_info.text_buffer);
     file_info.pointers_to_lines = (StringInfo*) calloc(file_info.amount_of_lines + 1, sizeof(StringInfo)); //массив структур инициализированных нулями
     if (file_info.pointers_to_lines == NULL)
     {
@@ -57,7 +56,7 @@ int main(int argc, char* argv[])
     OutputFromPointers(file_info.amount_of_lines, file_info.pointers_to_lines);
 
     free(copied_pointers_to_lines);
-    free(file_info.all_in_string);
+    free(file_info.text_buffer);
     free(file_info.pointers_to_lines);
     return 0;
 }

@@ -116,20 +116,20 @@ void StrswapPachka(char* str_first, char* str_second)
     }
 }
 
-int CountLines(char* all_in_string)
+int CountLines(char* text_buffer)
 {
-    assert(all_in_string != NULL);
+    assert(text_buffer != NULL);
 
     int counter = 0;
-    char* current_pointer = all_in_string;
+    char* current_pointer = text_buffer;
 
     for(;;)
     {
-        current_pointer = strchr(all_in_string, '\n');
+        current_pointer = strchr(text_buffer, '\n');
         if (current_pointer == NULL)
             break;
         counter++;
-        all_in_string = current_pointer + 1;
+        text_buffer = current_pointer + 1;
     }
 
     return counter;

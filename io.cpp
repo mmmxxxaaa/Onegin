@@ -24,7 +24,7 @@ void GetStringPointers(FileInfo* file_info) //ДЕЛО СДЕЛАНО
 {
     assert(file_info != NULL);
 
-    (file_info->pointers_to_lines[0]).ptr_to_beginning = file_info->all_in_string;
+    (file_info->pointers_to_lines[0]).ptr_to_beginning = file_info->text_buffer;
 
     int current_line_index = 0; //FIXME иначе сдвиг в .line запомнить запомнить запомнить запомнить!!!!
     int length_of_line = 0;
@@ -32,11 +32,11 @@ void GetStringPointers(FileInfo* file_info) //ДЕЛО СДЕЛАНО
     {
         if (current_line_index >= file_info->amount_of_lines) //FIXME почему без этого не работает
             break;
-        if (file_info->all_in_string[karetka] == '\n') //FIXME это же будет долго????
+        if (file_info->text_buffer[karetka] == '\n') //FIXME это же будет долго????
         {
             file_info->pointers_to_lines[current_line_index].length = length_of_line;
             current_line_index++;
-            (file_info->pointers_to_lines[current_line_index]).ptr_to_beginning = &(file_info->all_in_string[karetka + 1]);
+            (file_info->pointers_to_lines[current_line_index]).ptr_to_beginning = &(file_info->text_buffer[karetka + 1]);
             length_of_line = 0;
         }
         else
@@ -45,21 +45,16 @@ void GetStringPointers(FileInfo* file_info) //ДЕЛО СДЕЛАНО
     // my_fputs(pointers_to_lines[0].ptr_to_beginning, stdout);
 }
 
-int GetNameOfFile(char* ptr_filename, int name_size, int argc, char* argv[])
+char* GetNameOfFile(int name_size, int argc, char* argv[])
 {
-    assert(ptr_filename != NULL);
+    assert(argv != NULL);
 
     if (argc != 2)
     {
         fprintf(stderr, "Failed reading command string argument: \n");
-        return 0;
+        return NULL;
     }
-    else
-    {
-        strncpy(ptr_filename, argv[1], name_size - 1);
-        ptr_filename[name_size - 1] = '\0';
-    }
-    return 1;
+    return argv[1];
 }
 
 long int GetAmountOfSymbols(FILE *input_file)
@@ -69,20 +64,28 @@ long int GetAmountOfSymbols(FILE *input_file)
     int file_descriptor = fileno(input_file); //получили файловый дескриптор
     struct stat about_file;
     fstat(file_descriptor, &about_file);
+
     return about_file.st_size;
 }
 
-ssize_t ReadSymbolsFromFile(char* all_in_string, long int amount_of_symbols, FILE* input_file)
+ssize_t ReadSymbolsFromFile(char* text_buffer, long int amount_of_symbols, FILE* input_file)
 {
     assert(input_file != NULL);
 
-    if (all_in_string == NULL)
+    if (text_buffer == NULL)
     {
         fprintf(stderr, "Cannot allocate memory\n");
         return -1;
     }
-    all_in_string[amount_of_symbols] = '\0';
-    return fread(all_in_string, sizeof(char), amount_of_symbols, input_file);
+
+    long int success_read_symbols = fread(text_buffer, sizeof(char), amount_of_symbols, input_file);
+    text_buffer[amount_of_symbols] = '\0';
+    if (amount_of_symbols != success_read_symbols)
+    {
+        fprintf(stderr, "Failed reading symbols\n");
+        return -1;
+    }
+    return success_read_symbols;
 }
 
 //ХУЙНЯ ПЕРЕДЕЛЫВАЙ запомнить

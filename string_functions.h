@@ -8,7 +8,7 @@ void StrswapBykva(char* str_first, char* str_second);
 void StrswapPachka(char* str_first, char* str_second);
 
 int MyFputs(const char* string, FILE* stream);
-int CountLines(char* all_in_string);
+int CountLines(char* text_buffer);
 
 
 #endif // MY_STRING_FUNCTIONS_H_
