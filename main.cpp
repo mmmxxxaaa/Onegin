@@ -7,13 +7,12 @@
 
 #include "string.h"
 
-const int kFilenameSize = 100;
 const int kInputFilenameIndex = 1;
 const int kOutputFilenameIndex = 2;
 
 int main(int argc, char* argv[])
-{
-    char* input_filename = GetNameOfFile(kFilenameSize, argc, argv, kInputFilenameIndex); //FIXME всю обработку файлов в отдельные функции
+{                                                                          //FIXME разобраться с варнингами через функцию, принимающая знаковый тип, которая проверяет >= 0 и приводит его к беззнаковому типу
+    char* input_filename = GetNameOfFile(argc, argv, kInputFilenameIndex); //FIXME всю обработку файлов в отдельные функции
     if (input_filename == NULL)
     {
         fprintf(stderr, "Error reading filename\n");
@@ -54,7 +53,7 @@ int main(int argc, char* argv[])
 
     GetStringPointers(&file_info); //ДЕЛО СДЕЛАНО указатель на структуру в функцию
 
-    char* output_filename = GetNameOfFile(kFilenameSize, argc, argv, kOutputFilenameIndex);
+    char* output_filename = GetNameOfFile(argc, argv, kOutputFilenameIndex);
     if (output_filename == NULL)
     {
         fprintf(stderr, "Error reading filename\n");
@@ -76,7 +75,6 @@ int main(int argc, char* argv[])
 
     fprintf(output_file, "%s\n", file_info.text_buffer);
 
-    free(file_info.text_buffer);
-    free(file_info.pointers_to_lines);
+    FreeStructFileInfo(&file_info);
     return 0;
 }

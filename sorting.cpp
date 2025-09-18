@@ -82,7 +82,7 @@ int MyStrcmpLen(StringInfo string_1, StringInfo string_2)
     return 0;
 }
 
-void BubbleSort(StringInfo* pointers_to_lines, int amount_of_lines, int (*comparator)(StringInfo string_1, StringInfo string_2)) //FIXME тайпдефнуть
+void BubbleSort(StringInfo* pointers_to_lines, int amount_of_lines, Comparator comparator) //ДЕЛО СДЕЛАНО тайпдефнуть
 {
     assert(pointers_to_lines != NULL);
     assert(comparator != NULL);

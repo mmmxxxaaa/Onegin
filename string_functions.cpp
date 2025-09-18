@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-int MyFputs(const char* string, FILE* stream)
+size_t MyFputs(const char* string, FILE* stream)
 {
     assert(string != NULL);
     assert(stream != NULL);
@@ -13,7 +13,7 @@ int MyFputs(const char* string, FILE* stream)
     while (*string != '\n')
     {
         if (fputc(*string, stream) == EOF)
-            return EOF;
+            return 0;
         string++;
     }
 

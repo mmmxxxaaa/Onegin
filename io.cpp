@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "string_functions.h"
 
@@ -33,6 +34,7 @@ void GetStringPointers(FileInfo* file_info)
     {
         if (current_line_index >= file_info->amount_of_lines)
             break;
+
         if (file_info->text_buffer[karetka] == '\n') //MENTOR это же будет долго????
         {
             file_info->pointers_to_lines[current_line_index].length = length_of_line;
@@ -45,7 +47,7 @@ void GetStringPointers(FileInfo* file_info)
     }
 }
 
-char* GetNameOfFile(int name_size, int argc, char* argv[], int index_of_filename)
+char* GetNameOfFile(int argc, char* argv[], int index_of_filename)
 {
     assert(argv != NULL);
 
@@ -88,5 +90,8 @@ ssize_t ReadSymbolsFromFile(char* text_buffer, long int amount_of_symbols, FILE*
     return success_read_symbols;
 }
 
-
-
+void FreeStructFileInfo(FileInfo *file_info)
+{
+    free(file_info->text_buffer);
+    free(file_info->pointers_to_lines);
+}
