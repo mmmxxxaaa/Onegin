@@ -82,19 +82,19 @@ int MyStrcmpLen(StringInfo string_1, StringInfo string_2)
     return 0;
 }
 
-void BubbleSort(StringInfo* pointers_to_lines, int amount_of_lines, Comparator comparator) //ДЕЛО СДЕЛАНО тайпдефнуть
+void BubbleSort(StringInfo* pointers_to_lines, int number_of_lines, Comparator comparator) //ДЕЛО СДЕЛАНО тайпдефнуть
 {
     assert(pointers_to_lines != NULL);
     assert(comparator != NULL);
 
-    if (amount_of_lines <= 1)
+    if (number_of_lines <= 1)
         return; //случай, когда массив пустой или состоит из одного элемента
 
     int swapped = 0;
-    for (int i = 0; i < amount_of_lines - 1; i++)
+    for (int i = 0; i < number_of_lines - 1; i++)
     {
         swapped = 0;
-        for (int j = 0; j < amount_of_lines - i - 1; j++)
+        for (int j = 0; j < number_of_lines - i - 1; j++)
         {
             if (comparator(pointers_to_lines[j], pointers_to_lines[j + 1]) == 1)
             {

@@ -3,6 +3,8 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include "casting_functions.h"
+
 void StrswapGovno(char* temp, char* str_first, char* str_second)
 {
     assert(temp != NULL);
@@ -64,8 +66,8 @@ void StrswapPachka(char* str_first, char* str_second)
 
     long int max_pos = (end_pos_first > end_pos_second)? end_pos_first : end_pos_second;
 
-    long unsigned int int_iterations = max_pos / sizeof(int);
-    long int char_iterations = max_pos % sizeof(int);
+    long unsigned int int_iterations = I64ToU64SafeCast(max_pos) / sizeof(int);
+    long int char_iterations = I64ToU64SafeCast(max_pos) % sizeof(int);
 
     for (long unsigned int i = 0; i < int_iterations; i++)
     {

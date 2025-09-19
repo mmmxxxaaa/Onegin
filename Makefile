@@ -14,7 +14,8 @@ CXXFLAGS := -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Waggressive-
     -Wlarger-than=8192 -Wstack-usage=8192 -pie -fPIE -Werror=vla \
     -fsanitize=address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,undefined,unreachable,vla-bound,vptr
 
-SRC_FILES := main.cpp io.cpp sorting.cpp string_functions.cpp processing_files.cpp
+SRC_FILES := main.cpp io.cpp sorting.cpp string_functions.cpp processing_files.cpp \
+            casting_functions.cpp
 OBJ_FILES := $(SRC_FILES:.cpp=.o)
 
 all: clean Onegin

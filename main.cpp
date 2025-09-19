@@ -7,6 +7,7 @@
 #include "processing_files.h"
 
 #include "string.h"
+#include "casting_functions.h"
 
 int main(int argc, char** argv)
 {
@@ -16,11 +17,11 @@ int main(int argc, char** argv)
 //-----------
     FILE* output_file = ProcessingOutputFile(argv);
 
-    BubbleSort(file_info.pointers_to_lines, file_info.amount_of_lines, MyStrcmp);
-    OutputFromPointers(output_file, file_info.amount_of_lines, file_info.pointers_to_lines);
+    BubbleSort(file_info.pointers_to_lines, file_info.number_of_lines, MyStrcmp);
+    OutputFromPointers(output_file, file_info.number_of_lines, file_info.pointers_to_lines);
 
-    qsort(file_info.pointers_to_lines, file_info.amount_of_lines, sizeof(StringInfo), MyStrcmpReversed);
-    OutputFromPointers(output_file, file_info.amount_of_lines, file_info.pointers_to_lines);
+    qsort(file_info.pointers_to_lines, I32ToU64SafeCast(file_info.number_of_lines), sizeof(StringInfo), MyStrcmpReversed);
+    OutputFromPointers(output_file, file_info.number_of_lines, file_info.pointers_to_lines);
 
     fprintf(output_file, "%s\n", file_info.text_buffer);
 

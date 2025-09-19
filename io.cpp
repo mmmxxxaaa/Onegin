@@ -7,13 +7,14 @@
 #include <stdlib.h>
 
 #include "string_functions.h"
+#include "casting_functions.h"
 
-void OutputFromPointers(FILE* output_file, int amount_of_lines, StringInfo* pointers_to_lines)
+void OutputFromPointers(FILE* output_file, int number_of_lines, StringInfo* pointers_to_lines)
 {
     assert(output_file != NULL);
     assert(pointers_to_lines != NULL);
 
-    for (int i = 0; i < amount_of_lines; i++)
+    for (int i = 0; i < number_of_lines; i++)
     {
         char* current_ptr = (pointers_to_lines[i]).ptr_to_beginning;
 
@@ -30,10 +31,10 @@ void GetStringPointers(FileInfo* file_info)
 
     int current_line_index = 0;
     int length_of_line = 0;
-    long int n_symbols = file_info->amount_of_symbols;
+    long int n_symbols = file_info->number_of_symbols;
     for (long int karetka = 0; karetka < n_symbols; karetka++) // ДЕЛО СДЕЛАНО
     {
-        if (current_line_index >= file_info->amount_of_lines)
+        if (current_line_index >= file_info->number_of_lines)
             break;
 
         if (file_info->text_buffer[karetka] == '\n')
@@ -74,19 +75,14 @@ long int GetAmountOfSymbols(FILE *input_file)
     return about_file.st_size;
 }
 
-ssize_t ReadSymbolsFromFile(char* text_buffer, long int amount_of_symbols, FILE* input_file)
+ssize_t ReadSymbolsFromFile(char* text_buffer, long int number_of_symbols, FILE* input_file)
 {
     assert(input_file != NULL);
-//ассерт
-    if (text_buffer == NULL)
-    {
-        fprintf(stderr, "Cannot allocate memory\n");
-        return -1;
-    }
+    assert(text_buffer != NULL);
 
-    long int success_read_symbols = fread(text_buffer, sizeof(char), amount_of_symbols, input_file);
-    text_buffer[amount_of_symbols] = '\0';
-    if (amount_of_symbols != success_read_symbols)
+    long int success_read_symbols = U64ToI64SafeCast(fread(text_buffer, sizeof(char), I64ToU64SafeCast(number_of_symbols), input_file));
+    text_buffer[number_of_symbols] = '\0';
+    if (number_of_symbols != success_read_symbols)
     {
         fprintf(stderr, "Failed reading symbols\n");
         return -1;

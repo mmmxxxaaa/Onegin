@@ -7,6 +7,7 @@
 #include "errors_codes.h"
 #include "string_functions.h"
 #include "errors_codes.h"
+#include "casting_functions.h"
 
 const int kInputFilenameIndex = 1;
 const int kOutputFilenameIndex = 2;
@@ -22,16 +23,16 @@ ErrorsCodes ProcessingInputFile(FileInfo* ptr_file_info, char** argv)
         return ERROR_OPENING_FILE;
     }
 
-    ptr_file_info->amount_of_symbols = GetAmountOfSymbols(input_file);
+    ptr_file_info->number_of_symbols = GetAmountOfSymbols(input_file);
 
-    ptr_file_info->text_buffer = (char*) calloc(ptr_file_info->amount_of_symbols + 1, sizeof(char));
+    ptr_file_info->text_buffer = (char*) calloc(I64ToU64SafeCast(ptr_file_info->number_of_symbols + 1), sizeof(char));
     if (ptr_file_info->text_buffer == NULL)
     {
         fclose(input_file);
         fprintf(stderr, "Cannot allocate memory\n");
         return ERROR_ALLOCATING_MEMORY;
     }
-    ssize_t success_read_symbols = ReadSymbolsFromFile(ptr_file_info->text_buffer, ptr_file_info->amount_of_symbols, input_file);
+    ssize_t success_read_symbols = ReadSymbolsFromFile(ptr_file_info->text_buffer, ptr_file_info->number_of_symbols, input_file);
     // fprintf(stderr, "%ld", success_read_symbols);
     if (success_read_symbols == -1)
     {
@@ -62,8 +63,8 @@ ErrorsCodes ConstructFileInfo(FileInfo* ptr_file_info, char** argv)
 {
     ProcessingInputFile(ptr_file_info, argv);
 
-    ptr_file_info->amount_of_lines = CountLines(ptr_file_info->text_buffer);
-    ptr_file_info->pointers_to_lines = (StringInfo*) calloc(ptr_file_info->amount_of_lines + 1, sizeof(StringInfo));
+    ptr_file_info->number_of_lines = CountLines(ptr_file_info->text_buffer);
+    ptr_file_info->pointers_to_lines = (StringInfo*) calloc(I32ToU64SafeCast(ptr_file_info->number_of_lines + 1), sizeof(StringInfo));
     if (ptr_file_info->pointers_to_lines == NULL)
     {
         fprintf(stderr, "Cannot allocate memory\n");
